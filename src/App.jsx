@@ -20,7 +20,7 @@ export default function App() {
   async function handleSubmit() {
     if (!city) return
 
-    const KEY_GPT = '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'
+    const KEY_GPT = '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'
     setLoading(true)
 
     const prompt = `Crie um roteiro para uma viagem de exatos ${days.toFixed(
@@ -67,7 +67,7 @@ export default function App() {
       <section className="mx-3.5">
         <h1 className="text-white text-4xl">
           Sua viagem inesquecível
-          <br /> aqui conosco.
+          <br /> Pesquise aqui.
         </h1>
         <h3 className="text-white text-base mt-4">
           A melhor experiência para sua <br /> viagem começa agora
