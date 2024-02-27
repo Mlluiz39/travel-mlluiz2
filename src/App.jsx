@@ -20,8 +20,11 @@ export default function App() {
   async function handleSubmit() {
     if (!city) return
 
-    const KEY_GPT = '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'
+    setTravel('')
     setLoading(true)
+
+    // eslint-disable-next-line no-undef
+    const apiKey = import.meta.env.VITE_SOME_KEY
 
     const prompt = `Crie um roteiro para uma viagem de exatos ${days.toFixed(
       0
@@ -31,7 +34,7 @@ export default function App() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${KEY_GPT}`,
+        Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
         model: 'gpt-3.5-turbo',
@@ -67,10 +70,10 @@ export default function App() {
       <section className="mx-3.5">
         <h1 className="text-white text-4xl">
           Sua viagem inesquecível
-          <br /> Pesquise aqui.
+          <br /> Começa aqui !!!
         </h1>
         <h3 className="text-white text-base mt-4">
-          A melhor experiência para sua <br /> viagem começa agora
+          A melhor experiência para <br /> suas viagens.
         </h3>
       </section>
       <section className="bg-white mx-auto w-11/12 rounded-2xl p-6 mt-16">
