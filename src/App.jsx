@@ -79,7 +79,7 @@ export default function App() {
           A melhor experiência para <br /> suas viagens.
         </h3>
       </section>
-      <section className="bg-white mx-auto w-11/12 rounded-2xl p-6 mt-16">
+      <section className="bg-white mx-auto w-11/12 rounded-2xl p-6 my-10">
         <div>
           <h1 className="text-base text-slate-600">Destino</h1>
           <input
