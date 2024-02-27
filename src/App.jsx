@@ -66,7 +66,7 @@ export default function App() {
   }
 
   return (
-    <main className='h-screen bg-center bg-fixed bg-[url("../src/assets/travel.jpg")] bg-cover'>
+    <main className='min-h-screen bg-center bg-fixed bg-cover bg-[url("../src/assets/travel.jpg")]'>
       <header>
         <img src={Logo} alt="imagem de logo" />
       </header>
