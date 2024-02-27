@@ -18,12 +18,15 @@ export default function App() {
   }
 
   async function handleSubmit() {
-    if (!city) return
+    if (city === '') {
+      
+      setTravel('Por favor, insira uma cidade.')
+      return
+    }
 
     setTravel('')
     setLoading(true)
 
-    // eslint-disable-next-line no-undef
     const apiKey = import.meta.env.VITE_SOME_KEY
 
     const prompt = `Crie um roteiro para uma viagem de exatos ${days.toFixed(
@@ -125,15 +128,13 @@ export default function App() {
             <h3 className="mb-5 font-semibold text-xl text-slate-600">
               Roteiro da viagem 👇
             </h3>
-            <p className='text-slate-600'>
-              {travel
-                .split('\n')
-                .map((line, index) => (
-                  <span key={index}>
-                    {line}
-                    <br />
-                  </span>
-                ))}
+            <p className="text-slate-600">
+              {travel.split('\n').map((line, index) => (
+                <span key={index}>
+                  {line}
+                  <br />
+                </span>
+              ))}
             </p>
           </section>
         )}
