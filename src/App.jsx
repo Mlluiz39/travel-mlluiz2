@@ -2,7 +2,6 @@ import React from 'react'
 import Logo from '../src/assets/header.png'
 import { Slider, Typography } from '@mui/material'
 import Loading from './components/Loading'
-import Alert from './components/Alert'
 import generatePDF, { Margin } from 'react-to-pdf'
 
 const options = {
@@ -32,8 +31,20 @@ export default function App() {
   }
 
   async function handleSubmit() {
-    if (city === '') {
-      setError('Por favor, insira uma cidade'), setTravel('')
+    const maxLength = 35
+
+    if (!city) {
+      setError('Por favor, insira uma cidade.')
+      return
+    }
+
+    if (city.length < 3) {
+      setError('Cidade muito curta.')
+      return
+    }
+
+    if (city.length > maxLength) {
+      setError('Cidade muito longa.')
       return
     }
 
@@ -96,9 +107,18 @@ export default function App() {
         </section>
         <section className="bg-white mx-auto w-full md:w-11/12 lg:w-10/12 xl:w-8/12 2xl:w-6/12 rounded-xl p-6 mt-6">
           <div>
-            <div className="mb-4">
-              {error && <Alert severity="error">{error}</Alert>}
-            </div>
+            {error && (
+              <div className="mb-4">
+                <div role="alert">
+                  <div className="bg-red-500 text-white font-bold rounded-t px-4 py-2">
+                    Danger
+                  </div>
+                  <div className="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
+                    <p>{error}</p>
+                  </div>
+                </div>
+              </div>
+            )}
             <h1 className="text-base text-slate-600">Destino</h1>
             <input
               placeholder="Ex: Copacabana, RJ"
