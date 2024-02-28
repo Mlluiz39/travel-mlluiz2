@@ -65,7 +65,7 @@ export default function App() {
 
     const prompt = `Crie um roteiro para uma viagem de exatos ${days.toFixed(
       0
-    )} dias na cidade de ${city}, busque por lugares turísticos, lugares mais visitados, pontos turísticos e seja preciso nos dias de estadia fornecidos e gere roteiro de cafe da manha, almoço e jantar com sugestoes de hoteis e restaurantes. E limite o roteiro apenas na cidade fornecida. Forneça apenas em tópicos com nome do local onde ir em cada dia.`
+    )} dias na cidade de ${city}, busque por lugares e pontos turísticos, lugares mais visitados, e seja preciso nos dias de estadia fornecidos e gere roteiro de cafe da manha, almoço e jantar com sugestões de hotéis e restaurantes. E limite o roteiro apenas na cidade fornecida. Forneça apenas em tópicos com nome do local onde ir em cada dia.`
 
     fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
