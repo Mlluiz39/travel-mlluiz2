@@ -30,6 +30,12 @@ export default function App() {
     setCity(event.target.value)
   }
 
+  const handleKeyDown = event => {
+    if (event.key === 'Enter') {
+      handleSubmit()
+    }
+  }
+
   const handleCloseError = () => {
     setError('')
   }
@@ -59,7 +65,7 @@ export default function App() {
 
     const prompt = `Crie um roteiro para uma viagem de exatos ${days.toFixed(
       0
-    )} dias na cidade de ${city}, busque por lugares turísticos, lugares mais visitados, pontos turísticos e seja preciso nos dias de estadia fornecidos e gere roteiro de cafe da manha, almoço e jantar. E limite o roteiro apenas na cidade fornecida. Forneça apenas em tópicos com nome do local onde ir em cada dia.`
+    )} dias na cidade de ${city}, busque por lugares turísticos, lugares mais visitados, pontos turísticos e seja preciso nos dias de estadia fornecidos e gere roteiro de cafe da manha, almoço e jantar com sugestoes de hoteis e restaurantes. E limite o roteiro apenas na cidade fornecida. Forneça apenas em tópicos com nome do local onde ir em cada dia.`
 
     fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -138,7 +144,11 @@ export default function App() {
               className="peer h-full w-full border-b border-blue-gray-200 bg-transparent pt-2 pb-0.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 focus:border-gray-900 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
               value={city}
               onChange={handleInputChange}
+              onKeyDown={handleKeyDown}
             />
+            <p className="text-red-500 text-xs hidden peer-invalid:block">
+              Campo obrigatório
+            </p>
           </div>
           <div className="mt-5">
             <Typography
