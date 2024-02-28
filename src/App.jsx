@@ -113,7 +113,7 @@ export default function App() {
               id="slider"
               gutterBottom
             >
-              Tempo de estadia: {days} Dias
+              Tempo de estadia: {days} {days === 1 ? 'dia' : 'dias'}
             </Typography>
             <Slider
               value={days}
