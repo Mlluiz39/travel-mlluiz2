@@ -30,6 +30,9 @@ export default function App() {
     setCity(event.target.value)
   }
 
+  const handleCloseError = () => {
+    setError('')
+  }
   async function handleSubmit() {
     const maxLength = 35
 
@@ -56,7 +59,7 @@ export default function App() {
 
     const prompt = `Crie um roteiro para uma viagem de exatos ${days.toFixed(
       0
-    )} dias na cidade de ${city}, busque por lugares turísticos, lugares mais visitados, seja preciso nos dias de estadia fornecidos e gere roteiro de cafe da manha, almoço e jantar. O limite o roteiro apenas na cidade fornecida. Forneça apenas em tópicos com nome do local onde ir em cada dia.`
+    )} dias na cidade de ${city}, busque por lugares turísticos, lugares mais visitados, pontos turísticos e seja preciso nos dias de estadia fornecidos e gere roteiro de cafe da manha, almoço e jantar. E limite o roteiro apenas na cidade fornecida. Forneça apenas em tópicos com nome do local onde ir em cada dia e um link para maps. Por exemplo: \n\nDia 1: \n\nDia 2: \n\nDia 3: \n\nDia 4: \n\nDia 5: \n\nCidade: \n\nRoteiro:`
 
     fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -81,7 +84,6 @@ export default function App() {
     })
       .then(response => response.json())
       .then(data => {
-        console.log('Success:', data['choices'][0].message.content)
         setTravel(data.choices[0].message.content)
       })
       .catch(error => {
@@ -109,13 +111,24 @@ export default function App() {
           <div>
             {error && (
               <div className="mb-4">
-                <div role="alert">
-                  <div className="bg-red-500 text-white font-bold rounded-t px-4 py-2">
-                    Danger
-                  </div>
-                  <div className="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
-                    <p>{error}</p>
-                  </div>
+                <div
+                  onClick={handleCloseError}
+                  className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+                  role="alert"
+                >
+                  <strong className="font-bold">Erro !</strong>{' '}
+                  <span className="block sm:inline">{error}</span>
+                  <span className="absolute top-0 bottom-0 right-0 px-4 py-3">
+                    <svg
+                      className="fill-current h-6 w-6 text-red-500"
+                      role="button"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                    >
+                      <title>Close</title>
+                      <path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+                    </svg>
+                  </span>
                 </div>
               </div>
             )}
