@@ -3,6 +3,9 @@ import Logo from '../src/assets/header.png'
 import { Slider, Typography } from '@mui/material'
 import Loading from './components/Loading'
 import generatePDF, { Margin } from 'react-to-pdf'
+import { GoogleGenerativeAI } from '@google/generative-ai'
+
+import TravelItinerary from './components/Formatinerary'
 
 const options = {
   method: 'open',
@@ -61,41 +64,18 @@ export default function App() {
     setTravel('')
     setLoading(true)
 
-    const apiKey = import.meta.env.VITE_SOME_KEY
+    const genAI = new GoogleGenerativeAI(
+      (import.meta.env.VITE_GOOGLE_API_KEY =
+        'AIzaSyBQIU1jzEAdiqdvEx5Mxehre1xuXOGpTXA')
+    )
 
-    const prompt = `crie um roteiro para uma viagem de exatamente ${days.toFixed(
-      0
-    )} dias na cidade de ${city}. Explore os principais pontos turísticos, locais mais visitados e pontos de interesse na cidade, levando em consideração a precisão dos dias de estadia fornecidos. O roteiro deve incluir sugestões para café da manhã, almoço e jantar, bem como recomendações de hotéis e restaurantes. Certifique-se de que o roteiro esteja limitado à cidade fornecida e forneça as informações em tópicos, identificando o local a ser visitado em cada dia.`
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
+    const prompt = `Crie um roteiro para uma viagem de exatamente ${days} dia(s) na cidade de ${city}. Explore os principais pontos turísticos, locais mais visitados e pontos de interesse na cidade, levando em consideração o tempo de estadia fornecido. O roteiro deve incluir sugestões de restaurantes, bares, museus, parques, e qualquer outra informação relevante para o turista. O roteiro deve ser completo e detalhado, fornecendo informações úteis e dicas para o turista aproveitar ao máximo a sua viagem.`
 
-    fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model: 'gpt-3.5-turbo',
-        messages: [
-          {
-            role: 'user',
-            content: prompt,
-          },
-        ],
-        temperature: 0.2,
-        max_tokens: 500,
-        top_p: 1,
-        frequency_penalty: 0,
-        presence_penalty: 0,
-      }),
-    })
-      .then(response => response.json())
-      .then(data => {
-        setTravel(data.choices[0].message.content)
-      })
-      .catch(error => {
-        console.error('Error:', error)
-      })
-      .finally(() => setLoading(false))
+    const result = await model.generateContent(prompt)
+
+    setTravel(result.response.text())
+    setLoading(false)
   }
 
   return (
@@ -193,14 +173,8 @@ export default function App() {
                 id="content-id"
                 className="text-slate-600 py-2 flex justify-center items-center"
               >
-                <p className="text-slate-600">
-                  {travel.split('\n').map((line, index) => (
-                    <span key={index}>
-                      {line}
-                      <br />
-                    </span>
-                  ))}
-                </p>
+                {loading && <Loading />}
+                {travel && !loading && <TravelItinerary travel={travel} />}
               </div>
               <button
                 className="bg-sky-300 hover:bg-sky-500 text-white font-bold w-full py-2 px-4 rounded-2xl inline-flex items-center justify-center mt-3"
